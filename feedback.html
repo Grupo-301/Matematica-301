@@ -1,243 +1,840 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
     <title>Feedback - Matemática</title>
 
     <style>
+
+        /* =========================
+           RESET
+        ========================= */
+
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
         }
+
+
+        /* =========================
+           BODY
+        ========================= */
 
         body {
+
             min-height: 100vh;
-            background: linear-gradient(135deg, #4f46e5, #2563eb);
-            display: flex;
-            justify-content: center;
-            align-items: center;
+
+            background:
+                radial-gradient(
+                    circle at top left,
+                    #2563eb,
+                    transparent 35%
+                ),
+                radial-gradient(
+                    circle at bottom right,
+                    #7c3aed,
+                    transparent 35%
+                ),
+                #0f172a;
+
+            color: white;
+
             padding: 20px;
+
         }
+
+
+        /* =========================
+           CONTAINER
+        ========================= */
 
         .container {
-            background: white;
+
             width: 100%;
-            max-width: 550px;
-            padding: 35px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+
+            max-width: 1050px;
+
+            margin: auto;
+
         }
 
-        h1 {
-            text-align: center;
-            color: #1e3a8a;
-            margin-bottom: 10px;
+
+        /* =========================
+           BOTÃO VOLTAR
+        ========================= */
+
+        .btn-voltar {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            width: 50px;
+
+            height: 50px;
+
+            margin-bottom: 20px;
+
+            background: #1e293b;
+
+            border: 1px solid rgba(255,255,255,.15);
+
+            border-radius: 12px;
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 22px;
+
+            transition: .2s;
+
+            box-shadow:
+                0 8px 20px rgba(0,0,0,.25);
+
         }
+
+
+        .btn-voltar:hover {
+
+            background: #2563eb;
+
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 10px 25px rgba(37,99,235,.35);
+
+        }
+
+
+        /* =========================
+           CABEÇALHO
+        ========================= */
+
+        header {
+
+            text-align: center;
+
+            margin-bottom: 25px;
+
+        }
+
+
+        header h1 {
+
+            font-size: 42px;
+
+            margin-bottom: 10px;
+
+        }
+
+
+        header p {
+
+            color: #cbd5e1;
+
+            font-size: 18px;
+
+        }
+
+
+        /* =========================
+           CARD
+        ========================= */
+
+        .card {
+
+            background: rgba(15,23,42,.95);
+
+            border: 1px solid rgba(255,255,255,.1);
+
+            border-radius: 22px;
+
+            padding: 30px;
+
+            box-shadow:
+                0 20px 60px rgba(0,0,0,.35);
+
+            max-width: 650px;
+
+            margin: auto;
+
+        }
+
+
+        /* =========================
+           TÍTULO
+        ========================= */
+
+        .card h2 {
+
+            text-align: center;
+
+            font-size: 28px;
+
+            margin-bottom: 10px;
+
+        }
+
 
         .descricao {
+
             text-align: center;
-            color: #666;
+
+            color: #cbd5e1;
+
+            line-height: 1.6;
+
             margin-bottom: 30px;
+
         }
 
+
+        /* =========================
+           LABEL
+        ========================= */
+
         label {
+
             display: block;
+
             margin-bottom: 8px;
-            color: #333;
+
+            color: #e2e8f0;
+
             font-weight: bold;
+
         }
+
+
+        /* =========================
+           INPUTS
+        ========================= */
 
         input,
         textarea {
+
             width: 100%;
-            padding: 13px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
+
+            padding: 14px;
+
+            border: 2px solid #334155;
+
+            border-radius: 12px;
+
             margin-bottom: 20px;
+
             font-size: 15px;
+
             outline: none;
+
+            background: #1e293b;
+
+            color: white;
+
+            transition: .2s;
+
         }
+
+
+        input::placeholder,
+        textarea::placeholder {
+
+            color: #94a3b8;
+
+        }
+
 
         input:focus,
         textarea:focus {
-            border-color: #4f46e5;
+
+            border-color: #60a5fa;
+
+            box-shadow:
+                0 0 0 3px rgba(37,99,235,.15);
+
         }
+
 
         textarea {
-            height: 120px;
-            resize: none;
+
+            height: 130px;
+
+            resize: vertical;
+
         }
+
+
+        /* =========================
+           ESTRELAS
+        ========================= */
 
         .estrelas {
+
             display: flex;
+
             justify-content: center;
+
             gap: 8px;
-            margin-bottom: 25px;
+
+            margin-bottom: 15px;
+
         }
+
 
         .estrela {
-            font-size: 40px;
-            color: #ccc;
+
+            font-size: 45px;
+
+            color: #475569;
+
             cursor: pointer;
-            transition: 0.2s;
+
+            transition: .2s;
+
         }
 
-        .estrela:hover,
-        .estrela.ativa {
+
+        .estrela:hover {
+
             color: #fbbf24;
+
             transform: scale(1.1);
+
         }
 
-        button {
-            width: 100%;
-            padding: 14px;
-            border: none;
-            border-radius: 10px;
-            background: #4f46e5;
-            color: white;
-            font-size: 17px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
+
+        .estrela.ativa {
+
+            color: #fbbf24;
+
+            transform: scale(1.05);
+
         }
 
-        button:hover {
-            background: #3730a3;
-        }
 
-        #mensagem {
-            display: none;
-            margin-top: 20px;
-            padding: 15px;
-            border-radius: 10px;
-            background: #dcfce7;
-            color: #166534;
-            text-align: center;
-            font-weight: bold;
-        }
+        /* =========================
+           NOTA
+        ========================= */
 
         .nota {
+
             text-align: center;
-            color: #666;
-            margin-bottom: 20px;
+
+            color: #94a3b8;
+
+            margin-bottom: 25px;
+
         }
 
 
-        
+        #valorNota {
+
+            color: #fbbf24;
+
+            font-weight: bold;
+
+            font-size: 18px;
+
+        }
+
+
+        /* =========================
+           BOTÃO ENVIAR
+        ========================= */
+
+        .btn-enviar {
+
+            width: 100%;
+
+            padding: 17px;
+
+            border: none;
+
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #22c55e,
+                    #16a34a
+                );
+
+            color: white;
+
+            font-size: 18px;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            transition: .2s;
+
+        }
+
+
+        .btn-enviar:hover {
+
+            transform: translateY(-2px);
+
+            filter: brightness(1.1);
+
+            box-shadow:
+                0 10px 25px rgba(34,197,94,.25);
+
+        }
+
+
+        /* =========================
+           MENSAGEM
+        ========================= */
+
+        #mensagem {
+
+            display: none;
+
+            margin-top: 20px;
+
+            padding: 16px;
+
+            border-radius: 12px;
+
+            background: #14532d;
+
+            border: 1px solid #22c55e;
+
+            color: #bbf7d0;
+
+            text-align: center;
+
+            line-height: 1.6;
+
+            font-weight: bold;
+
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+
+            text-align: center;
+
+            padding: 25px 0 10px;
+
+            color: #94a3b8;
+
+            font-size: 14px;
+
+        }
+
+
+        /* =========================
+           RESPONSIVIDADE
+        ========================= */
+
+        @media(max-width:700px) {
+
+            body {
+
+                padding: 15px;
+
+            }
+
+
+            header h1 {
+
+                font-size: 30px;
+
+            }
+
+
+            header p {
+
+                font-size: 16px;
+
+            }
+
+
+            .card {
+
+                padding: 20px;
+
+                border-radius: 18px;
+
+            }
+
+
+            .card h2 {
+
+                font-size: 24px;
+
+            }
+
+
+            .estrela {
+
+                font-size: 38px;
+
+            }
+
+        }
+
     </style>
+
 </head>
+
 
 <body>
 
-    <div class="container">
 
-        <h1>🧮 Avalie nosso site</h1>
+<div class="container">
 
-        <p class="descricao">
-            Sua opinião é importante para melhorar nossa plataforma de Matemática!
+
+    <!-- =========================
+         BOTÃO VOLTAR
+    ========================= -->
+
+    <a href="Pagina Inicial.html"
+       class="btn-voltar">
+
+        ⬅️
+
+    </a>
+
+
+    <!-- =========================
+         CABEÇALHO
+    ========================= -->
+
+    <header>
+
+        <h1>
+            🧮 Central de Matemática
+        </h1>
+
+        <p>
+            • Matemática do 6º ao 9º ano •
         </p>
 
-        <label>Seu nome</label>
-        <input type="text" id="nome" placeholder="Digite seu nome">
+    </header>
 
-        <label>Como você avalia o site?</label>
+
+    <!-- =========================
+         FEEDBACK
+    ========================= -->
+
+    <section class="card">
+
+
+        <h2>
+            ⭐ Avalie nosso site
+        </h2>
+
+
+        <p class="descricao">
+
+            Sua opinião é importante para melhorar
+            nossa plataforma de Matemática!
+
+        </p>
+
+
+        <!-- NOME -->
+
+        <label for="nome">
+            👤 Seu nome
+        </label>
+
+        <input
+            type="text"
+            id="nome"
+            placeholder="Digite seu nome"
+        >
+
+
+        <!-- ESTRELAS -->
+
+        <label>
+            ⭐ Como você avalia o site?
+        </label>
+
 
         <div class="estrelas">
-            <span class="estrela" data-nota="1">★</span>
-            <span class="estrela" data-nota="2">★</span>
-            <span class="estrela" data-nota="3">★</span>
-            <span class="estrela" data-nota="4">★</span>
-            <span class="estrela" data-nota="5">★</span>
+
+            <span
+                class="estrela"
+                data-nota="1">
+                ★
+            </span>
+
+            <span
+                class="estrela"
+                data-nota="2">
+                ★
+            </span>
+
+            <span
+                class="estrela"
+                data-nota="3">
+                ★
+            </span>
+
+            <span
+                class="estrela"
+                data-nota="4">
+                ★
+            </span>
+
+            <span
+                class="estrela"
+                data-nota="5">
+                ★
+            </span>
+
         </div>
+
 
         <div class="nota">
-            Nota selecionada: <span id="valorNota">0</span>/5
+
+            Nota selecionada:
+
+            <span id="valorNota">
+                0
+            </span>
+
+            /5
+
         </div>
 
-        <label>Seu comentário</label>
+
+        <!-- COMENTÁRIO -->
+
+        <label for="comentario">
+            💬 Seu comentário
+        </label>
+
         <textarea
             id="comentario"
             placeholder="Conte o que você achou do site..."
         ></textarea>
 
-        <button onclick="enviarFeedback()">
-            Enviar Feedback 🚀
+
+        <!-- BOTÃO -->
+
+        <button
+            class="btn-enviar"
+            onclick="enviarFeedback()">
+
+            🚀 Enviar Feedback
+
         </button>
+
+
+        <!-- MENSAGEM -->
 
         <div id="mensagem"></div>
 
-    </div>
 
-    <script>
-        const estrelas = document.querySelectorAll(".estrela");
-        let notaSelecionada = 0;
+    </section>
 
-        estrelas.forEach((estrela) => {
 
-            estrela.addEventListener("click", () => {
+    <!-- =========================
+         FOOTER
+    ========================= -->
 
-                notaSelecionada = Number(estrela.dataset.nota);
+    <footer>
 
-                estrelas.forEach((item) => {
-                    item.classList.remove("ativa");
-                });
+        © 2026 - Central de Matemática
 
-                estrelas.forEach((item) => {
+    </footer>
 
-                    if (Number(item.dataset.nota) <= notaSelecionada) {
-                        item.classList.add("ativa");
-                    }
 
-                });
+</div>
 
-                document.getElementById("valorNota").textContent =
-                    notaSelecionada;
-            });
+
+<script>
+
+
+/* =========================================================
+   ESTRELAS
+========================================================= */
+
+const estrelas =
+    document.querySelectorAll(".estrela");
+
+
+let notaSelecionada = 0;
+
+
+estrelas.forEach((estrela) => {
+
+    estrela.addEventListener("click", () => {
+
+        notaSelecionada =
+            Number(
+                estrela.dataset.nota
+            );
+
+
+        estrelas.forEach((item) => {
+
+            item.classList.remove(
+                "ativa"
+            );
+
         });
 
-        function enviarFeedback() {
 
-            const nome = document.getElementById("nome").value;
-            const comentario = document.getElementById("comentario").value;
-            const mensagem = document.getElementById("mensagem");
+        estrelas.forEach((item) => {
 
-            if (nome === "") {
-                alert("Digite seu nome!");
-                return;
+            if (
+                Number(item.dataset.nota)
+                <= notaSelecionada
+            ) {
+
+                item.classList.add(
+                    "ativa"
+                );
+
             }
 
-            if (notaSelecionada === 0) {
-                alert("Escolha uma nota de 1 a 5 estrelas!");
-                return;
-            }
+        });
 
-            if (comentario === "") {
-                alert("Digite um comentário!");
-                return;
-            }
 
-            mensagem.style.display = "block";
+        document.getElementById(
+            "valorNota"
+        ).textContent =
+            notaSelecionada;
 
-            mensagem.innerHTML =
-                `Obrigado, ${nome}! 🎉<br>
-                Seu feedback foi enviado com sucesso.<br>
-                Nota: ${notaSelecionada}/5 ⭐`;
+    });
 
-            document.getElementById("nome").value = "";
-            document.getElementById("comentario").value = "";
+});
 
-            estrelas.forEach((estrela) => {
-                estrela.classList.remove("ativa");
-            });
 
-            notaSelecionada = 0;
+/* =========================================================
+   ENVIAR FEEDBACK
+========================================================= */
 
-            document.getElementById("valorNota").textContent = "0";
-        }
-    </script>
+function enviarFeedback() {
+
+
+    const nome =
+        document.getElementById(
+            "nome"
+        ).value.trim();
+
+
+    const comentario =
+        document.getElementById(
+            "comentario"
+        ).value.trim();
+
+
+    const mensagem =
+        document.getElementById(
+            "mensagem"
+        );
+
+
+    /* VERIFICA NOME */
+
+    if (nome === "") {
+
+        alert(
+            "Digite seu nome!"
+        );
+
+        return;
+
+    }
+
+
+    /* VERIFICA NOTA */
+
+    if (notaSelecionada === 0) {
+
+        alert(
+            "Escolha uma nota de 1 a 5 estrelas!"
+        );
+
+        return;
+
+    }
+
+
+    /* VERIFICA COMENTÁRIO */
+
+    if (comentario === "") {
+
+        alert(
+            "Digite um comentário!"
+        );
+
+        return;
+
+    }
+
+
+    /* MOSTRA MENSAGEM */
+
+    mensagem.style.display =
+        "block";
+
+
+    mensagem.innerHTML =
+
+        `🎉 Obrigado, ${nome}!<br>
+        Seu feedback foi enviado com sucesso.<br>
+        Nota: ${notaSelecionada}/5 ⭐`;
+
+
+    /* LIMPA FORMULÁRIO */
+
+    document.getElementById(
+        "nome"
+    ).value = "";
+
+
+    document.getElementById(
+        "comentario"
+    ).value = "";
+
+
+    /* LIMPA ESTRELAS */
+
+    estrelas.forEach((estrela) => {
+
+        estrela.classList.remove(
+            "ativa"
+        );
+
+    });
+
+
+    notaSelecionada = 0;
+
+
+    document.getElementById(
+        "valorNota"
+    ).textContent = "0";
+
+}
+
+</script>
+
 
 </body>
 </html>
