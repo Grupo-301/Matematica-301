@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Login Matemática</title>
+
+<style>
+body {
+    font-family: Arial;
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    overflow: hidden;
+}
+
+.container {
+    background: rgba(255,255,255,0.1);
+    padding: 30px;
+    border-radius: 15px;
+    width: 320px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+}
+
+input {
+    width: 90%;
+    padding: 10px;
+    margin: 8px 0;
+    border-radius: 8px;
+    border: none;
+}
+
+button {
+    width: 95%;
+    padding: 10px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #36d1dc, #5b86e5);
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.05);
+}
+
+.math {
+    position: absolute;
+    color: rgba(255,255,255,0.15);
+    font-size: 22px;
+}
+
+.m1 { top: 10%; left: 10%; }
+.m2 { top: 20%; right: 10%; }
+.m3 { bottom: 15%; left: 20%; }
+.m4 { bottom: 10%; right: 10%; }
+
+.hidden { display: none; }
+</style>
+</head>
+
+<body>
+
+<!-- Decoração matemática -->
+<div class="math m1">7 × 8 = 56</div>
+<div class="math m2">64 ÷ 8 = 8</div>
+<div class="math m3">10² = 100</div>
+<div class="math m4">1/2 + 1/2 = 1</div>
+
+<div class="container">
+
+<!-- LOGIN -->
+<div id="login">
+    <h2>Entrar</h2>
+    <input type="text" id="nomeLogin" placeholder="Nome">
+    <input type="password" id="senhaLogin" placeholder="Senha">
+
+    <button onclick="entrar()">Entrar</button>
+    <button onclick="mostrarCadastro()">Criar Conta</button>
+</div>
+
+<!-- CADASTRO -->
+<div id="cadastro" class="hidden">
+    <h2>Criar Conta</h2>
+    <input type="text" id="nomeCad" placeholder="Nome">
+    <input type="password" id="senhaCad" placeholder="Senha">
+
+    <button onclick="cadastrar()">Cadastrar</button>
+    <button onclick="voltar()">Voltar</button>
+</div>
+
+</div>
+
+<script>
+// Alternar telas
+function mostrarCadastro() {
+    login.classList.add("hidden");
+    cadastro.classList.remove("hidden");
+}
+
+function voltar() {
+    cadastro.classList.add("hidden");
+    login.classList.remove("hidden");
+}
+
+// Cadastro
+function cadastrar() {
+    let nome = nomeCad.value;
+    let senha = senhaCad.value;
+
+    if (!nome || !senha) {
+        alert("Preencha tudo!");
+        return;
+    }
+
+    localStorage.setItem("nome", nome);
+    localStorage.setItem("senha", senha);
+
+    alert("Conta criada!");
+    voltar();
+}
+
+// Login
+function entrar() {
+    let nome = nomeLogin.value;
+    let senha = senhaLogin.value;
+
+    let nomeSalvo = localStorage.getItem("nome");
+    let senhaSalva = localStorage.getItem("senha");
+
+    if (!nomeSalvo) {
+        alert("Você ainda não tem conta!");
+        return;
+    }
+
+    if (nome === nomeSalvo && senha === senhaSalva) {
+        localStorage.setItem("logado", "true");
+        window.location.href = "Pagina Inicial.html";
+    } else {
+        alert("Nome ou senha incorretos!");
+    }
+}
+</script>
+</body>
+</html>

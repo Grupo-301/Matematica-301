@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback - Matemática</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #4f46e5, #2563eb);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            width: 100%;
+            max-width: 550px;
+            padding: 35px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: #1e3a8a;
+            margin-bottom: 10px;
+        }
+
+        .descricao {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: #4f46e5;
+        }
+
+        textarea {
+            height: 120px;
+            resize: none;
+        }
+
+        .estrelas {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 25px;
+        }
+
+        .estrela {
+            font-size: 40px;
+            color: #ccc;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .estrela:hover,
+        .estrela.ativa {
+            color: #fbbf24;
+            transform: scale(1.1);
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            background: #4f46e5;
+            color: white;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #3730a3;
+        }
+
+        #mensagem {
+            display: none;
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            background: #dcfce7;
+            color: #166534;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .nota {
+            text-align: center;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+
+        
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>🧮 Avalie nosso site</h1>
+
+        <p class="descricao">
+            Sua opinião é importante para melhorar nossa plataforma de Matemática!
+        </p>
+
+        <label>Seu nome</label>
+        <input type="text" id="nome" placeholder="Digite seu nome">
+
+        <label>Como você avalia o site?</label>
+
+        <div class="estrelas">
+            <span class="estrela" data-nota="1">★</span>
+            <span class="estrela" data-nota="2">★</span>
+            <span class="estrela" data-nota="3">★</span>
+            <span class="estrela" data-nota="4">★</span>
+            <span class="estrela" data-nota="5">★</span>
+        </div>
+
+        <div class="nota">
+            Nota selecionada: <span id="valorNota">0</span>/5
+        </div>
+
+        <label>Seu comentário</label>
+        <textarea
+            id="comentario"
+            placeholder="Conte o que você achou do site..."
+        ></textarea>
+
+        <button onclick="enviarFeedback()">
+            Enviar Feedback 🚀
+        </button>
+
+        <div id="mensagem"></div>
+
+    </div>
+
+    <script>
+        const estrelas = document.querySelectorAll(".estrela");
+        let notaSelecionada = 0;
+
+        estrelas.forEach((estrela) => {
+
+            estrela.addEventListener("click", () => {
+
+                notaSelecionada = Number(estrela.dataset.nota);
+
+                estrelas.forEach((item) => {
+                    item.classList.remove("ativa");
+                });
+
+                estrelas.forEach((item) => {
+
+                    if (Number(item.dataset.nota) <= notaSelecionada) {
+                        item.classList.add("ativa");
+                    }
+
+                });
+
+                document.getElementById("valorNota").textContent =
+                    notaSelecionada;
+            });
+        });
+
+        function enviarFeedback() {
+
+            const nome = document.getElementById("nome").value;
+            const comentario = document.getElementById("comentario").value;
+            const mensagem = document.getElementById("mensagem");
+
+            if (nome === "") {
+                alert("Digite seu nome!");
+                return;
+            }
+
+            if (notaSelecionada === 0) {
+                alert("Escolha uma nota de 1 a 5 estrelas!");
+                return;
+            }
+
+            if (comentario === "") {
+                alert("Digite um comentário!");
+                return;
+            }
+
+            mensagem.style.display = "block";
+
+            mensagem.innerHTML =
+                `Obrigado, ${nome}! 🎉<br>
+                Seu feedback foi enviado com sucesso.<br>
+                Nota: ${notaSelecionada}/5 ⭐`;
+
+            document.getElementById("nome").value = "";
+            document.getElementById("comentario").value = "";
+
+            estrelas.forEach((estrela) => {
+                estrela.classList.remove("ativa");
+            });
+
+            notaSelecionada = 0;
+
+            document.getElementById("valorNota").textContent = "0";
+        }
+    </script>
+
+</body>
+</html>

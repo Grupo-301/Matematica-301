@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Prova de Matemática - Fundamental 2</title>
+
+<style>
+
+    /* =========================
+       RESET
+    ========================= */
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+
+    /* =========================
+       BODY
+    ========================= */
+
+    body {
+        font-family: Arial, Helvetica, sans-serif;
+        min-height: 100vh;
+
+        background:
+            radial-gradient(
+                circle at top left,
+                #2563eb,
+                transparent 35%
+            ),
+            radial-gradient(
+                circle at bottom right,
+                #7c3aed,
+                transparent 35%
+            ),
+            #0f172a;
+
+        color: white;
+        padding: 20px;
+    }
+
+
+    /* =========================
+       CONTAINER
+    ========================= */
+
+    .container {
+        width: 100%;
+        max-width: 900px;
+        margin: auto;
+
+        background: rgba(15, 23, 42, 0.95);
+
+        border: 1px solid rgba(255,255,255,.1);
+
+        padding: 30px;
+
+        border-radius: 22px;
+
+        box-shadow:
+            0 20px 60px rgba(0,0,0,.35);
+    }
+
+
+    /* =========================
+       TÍTULO
+    ========================= */
+
+    h1 {
+        text-align: center;
+
+        font-size: 40px;
+
+        margin-bottom: 10px;
+
+        color: white;
+    }
+
+
+    .subtitulo {
+        text-align: center;
+
+        color: #cbd5e1;
+
+        font-size: 18px;
+
+        margin-bottom: 30px;
+    }
+
+
+    /* =========================
+       QUESTÕES
+    ========================= */
+
+    .questao {
+        background: #1e293b;
+
+        border: 1px solid rgba(255,255,255,.1);
+
+        border-left: 5px solid #60a5fa;
+
+        padding: 20px;
+
+        margin: 18px 0;
+
+        border-radius: 16px;
+
+        box-shadow:
+            0 10px 30px rgba(0,0,0,.20);
+
+        transition: .2s;
+    }
+
+
+    .questao:hover {
+        transform: translateY(-3px);
+
+        background: #263449;
+
+        border-left-color: #a78bfa;
+    }
+
+
+    .questao b {
+        color: #93c5fd;
+
+        font-size: 18px;
+    }
+
+
+    .questao p {
+        color: #e2e8f0;
+
+        font-size: 17px;
+
+        line-height: 1.6;
+
+        margin: 12px 0 15px;
+    }
+
+
+    /* =========================
+       INPUT
+    ========================= */
+
+    input {
+        padding: 12px;
+
+        width: 180px;
+
+        border-radius: 10px;
+
+        border: 1px solid #475569;
+
+        background: #0f172a;
+
+        color: white;
+
+        font-size: 16px;
+
+        outline: none;
+
+        transition: .2s;
+    }
+
+
+    input:focus {
+        border-color: #60a5fa;
+
+        box-shadow:
+            0 0 0 3px rgba(96,165,250,.15);
+    }
+
+
+    input::placeholder {
+        color: #94a3b8;
+    }
+
+
+    /* =========================
+       BOTÕES
+    ========================= */
+
+    button {
+        background:
+            linear-gradient(
+                135deg,
+                #2563eb,
+                #7c3aed
+            );
+
+        color: white;
+
+        border: none;
+
+        padding: 13px 22px;
+
+        border-radius: 12px;
+
+        cursor: pointer;
+
+        font-size: 16px;
+
+        font-weight: bold;
+
+        margin: 10px 5px;
+
+        transition: .25s;
+
+        box-shadow:
+            0 8px 25px rgba(37,99,235,.25);
+    }
+
+
+    button:hover {
+        transform: translateY(-3px);
+
+        filter: brightness(1.15);
+
+        box-shadow:
+            0 12px 30px rgba(124,58,237,.35);
+    }
+
+
+    /* =========================
+       BOTÃO VOLTAR
+    ========================= */
+
+    .btn-voltar {
+        background:
+            linear-gradient(
+                135deg,
+                #475569,
+                #334155
+            );
+
+        box-shadow:
+            0 8px 25px rgba(71,85,105,.25);
+    }
+
+
+    .btn-voltar:hover {
+        background:
+            linear-gradient(
+                135deg,
+                #64748b,
+                #475569
+            );
+
+        box-shadow:
+            0 12px 30px rgba(71,85,105,.35);
+            
+    }
+
+
+    /* =========================
+       RESULTADO
+    ========================= */
+
+    #resultado {
+        margin-top: 30px;
+
+        padding: 25px;
+
+        background:
+            linear-gradient(
+                135deg,
+                rgba(37,99,235,.20),
+                rgba(124,58,237,.20)
+            );
+
+        border: 1px solid rgba(96,165,250,.25);
+
+        border-radius: 16px;
+
+        display: none;
+
+        color: #e2e8f0;
+
+        line-height: 1.7;
+    }
+
+
+    #resultado h2 {
+        color: white;
+
+        margin-bottom: 15px;
+    }
+
+
+    /* =========================
+       DIFICULDADE
+    ========================= */
+
+    .dificuldade {
+        background: #1e293b;
+
+        border: 1px solid rgba(167,139,250,.25);
+
+        padding: 18px;
+
+        border-radius: 14px;
+
+        margin-top: 18px;
+
+        color: #cbd5e1;
+    }
+
+
+    .dificuldade b {
+        color: #a78bfa;
+    }
+
+
+    /* =========================
+       RESPONSIVIDADE
+    ========================= */
+
+    @media(max-width: 700px) {
+
+        body {
+            padding: 15px;
+        }
+
+
+        .container {
+            padding: 20px;
+
+            border-radius: 18px;
+        }
+
+
+        h1 {
+            font-size: 30px;
+        }
+
+
+        .subtitulo {
+            font-size: 16px;
+        }
+
+
+        .questao {
+            padding: 17px;
+        }
+
+
+        .questao p {
+            font-size: 16px;
+        }
+
+
+        input {
+            width: 100%;
+
+            font-size: 16px;
+        }
+
+
+        button {
+            width: 100%;
+
+            margin: 7px 0;
+        }
+
+    }
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <!-- =========================
+         TÍTULO
+    ========================= -->
+
+    <h1>📘 Prova de Matemática</h1>
+
+    <p class="subtitulo">
+        Ensino Fundamental 2
+    </p>
+
+
+    <!-- =========================
+         PROVA
+    ========================= -->
+
+    <div id="prova"></div>
+
+
+    <!-- =========================
+         BOTÕES
+    ========================= -->
+
+    <center>
+
+        <button onclick="corrigir()">
+            ✅ Finalizar Prova
+        </button>
+
+        <button onclick="novaProva()">
+            🔄 Nova Prova
+        </button>
+
+        <button
+            class="btn-voltar"
+            onclick="window.history.back()">
+
+            ⬅️ Voltar para a página anterior
+
+        </button>
+
+    </center>
+
+
+    <!-- =========================
+         RESULTADO
+    ========================= -->
+
+    <div id="resultado"></div>
+
+
+</div>
+
+
+<script>
+
+let questoes = [];
+
+
+/* =========================
+   NÚMERO ALEATÓRIO
+========================= */
+
+function aleatorio(min,max){
+
+    return Math.floor(
+        Math.random() * (max-min+1)
+    ) + min;
+
+}
+
+
+/* =========================
+   GERAR QUESTÕES
+========================= */
+
+function gerarQuestoes(){
+
+    questoes = [];
+
+
+    let tipos = [
+
+        {
+            assunto:"Operações Básicas",
+
+            criar:()=>{
+
+                let a=aleatorio(10,80);
+
+                let b=aleatorio(5,40);
+
+                return {
+
+                    pergunta:
+                    `Quanto é ${a} + ${b}?`,
+
+                    resposta:
+                    a+b
+
+                };
+
+            }
+
+        },
+
+
+        {
+            assunto:"Multiplicação",
+
+            criar:()=>{
+
+                let a=aleatorio(3,15);
+
+                let b=aleatorio(2,12);
+
+                return {
+
+                    pergunta:
+                    `Quanto é ${a} × ${b}?`,
+
+                    resposta:
+                    a*b
+
+                };
+
+            }
+
+        },
+
+
+        {
+            assunto:"Divisão",
+
+            criar:()=>{
+
+                let b=aleatorio(2,10);
+
+                let resposta=aleatorio(3,15);
+
+                return {
+
+                    pergunta:
+                    `Quanto é ${resposta*b} ÷ ${b}?`,
+
+                    resposta:
+                    resposta
+
+                };
+
+            }
+
+        },
+
+
+        {
+            assunto:"Porcentagem",
+
+            criar:()=>{
+
+                let valor=aleatorio(50,300);
+
+                return {
+
+                    pergunta:
+                    `Quanto é 10% de ${valor}?`,
+
+                    resposta:
+                    valor/10
+
+                };
+
+            }
+
+        },
+
+
+        {
+            assunto:"Equação",
+
+            criar:()=>{
+
+                let x=aleatorio(2,15);
+
+                let n=aleatorio(5,30);
+
+                return {
+
+                    pergunta:
+                    `Resolva: x + ${n} = ${x+n}. Qual é o valor de x?`,
+
+                    resposta:
+                    x
+
+                };
+
+            }
+
+        },
+
+
+        {
+            assunto:"Geometria",
+
+            criar:()=>{
+
+                let lado=aleatorio(3,15);
+
+                return {
+
+                    pergunta:
+                    `Um quadrado possui lado ${lado} cm. Qual é sua área?`,
+
+                    resposta:
+                    lado*lado
+
+                };
+
+            }
+
+        },
+
+
+        {
+            assunto:"Frações",
+
+            criar:()=>{
+
+                let total=aleatorio(20,80);
+
+                return {
+
+                    pergunta:
+                    `Quanto é metade de ${total}?`,
+
+                    resposta:
+                    total/2
+
+                };
+
+            }
+
+        }
+
+    ];
+
+
+    /* =========================
+       CRIAR 10 QUESTÕES
+    ========================= */
+
+    for(let i=0;i<10;i++){
+
+        let tipo =
+            tipos[
+                aleatorio(0,tipos.length-1)
+            ];
+
+
+        questoes.push({
+
+            ...tipo.criar(),
+
+            assunto:
+            tipo.assunto
+
+        });
+
+    }
+
+}
+
+
+/* =========================
+   MOSTRAR PROVA
+========================= */
+
+function mostrarProva(){
+
+    let area =
+        document.getElementById("prova");
+
+
+    area.innerHTML = "";
+
+
+    questoes.forEach((q,index)=>{
+
+        area.innerHTML += `
+
+        <div class="questao">
+
+            <b>
+                Questão ${index+1} - ${q.assunto}
+            </b>
+
+            <p>
+                ${q.pergunta}
+            </p>
+
+            <input
+                type="number"
+                id="resp${index}"
+                placeholder="Resposta"
+            >
+
+        </div>
+
+        `;
+
+    });
+
+}
+
+
+/* =========================
+   CORRIGIR PROVA
+========================= */
+
+function corrigir(){
+
+    let acertos=0;
+
+    let erros=[];
+
+
+    questoes.forEach((q,index)=>{
+
+        let resposta =
+            document.getElementById(
+                "resp"+index
+            ).value;
+
+
+        if(Number(resposta)===q.resposta){
+
+            acertos++;
+
+        }else{
+
+            erros.push(q.assunto);
+
+        }
+
+    });
+
+
+    let nota =
+        (acertos/10)*10;
+
+
+    let dificuldades={};
+
+
+    erros.forEach(e=>{
+
+        dificuldades[e] =
+            (dificuldades[e]||0)+1;
+
+    });
+
+
+    let analise="";
+
+
+    if(erros.length===0){
+
+        analise =
+        "Excelente! Você demonstrou domínio de todos os conteúdos.";
+
+    }else{
+
+        analise =
+        "Você apresentou dificuldades principalmente em:<br><br>";
+
+
+        for(let item in dificuldades){
+
+            analise +=
+            `• ${item}: ${dificuldades[item]} erro(s)<br>`;
+
+        }
+
+
+        analise +=
+        `<br>Recomendação: revise esses conteúdos e pratique mais exercícios relacionados.`;
+
+    }
+
+
+    let resultado =
+        document.getElementById("resultado");
+
+
+    resultado.style.display="block";
+
+
+    resultado.innerHTML=`
+
+        <h2>📊 Resultado</h2>
+
+        <p>
+            <b>Acertos:</b>
+            ${acertos}/10
+        </p>
+
+        <p>
+            <b>Nota:</b>
+            ${nota.toFixed(1)}
+        </p>
+
+        <div class="dificuldade">
+
+            <b>
+                📚 Análise de desempenho:
+            </b>
+
+            <br><br>
+
+            ${analise}
+
+        </div>
+
+    `;
+
+
+    /* Ir até o resultado */
+
+    resultado.scrollIntoView({
+        behavior: "smooth"
+    });
+
+}
+
+
+/* =========================
+   NOVA PROVA
+========================= */
+
+function novaProva(){
+
+    document
+        .getElementById("resultado")
+        .style.display="none";
+
+
+    gerarQuestoes();
+
+    mostrarProva();
+
+}
+
+
+/* =========================
+   INICIAR PROVA
+========================= */
+
+novaProva();
+
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,2083 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Central de Desafios Matemáticos</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at top left, #2563eb, transparent 35%),
+                radial-gradient(circle at bottom right, #7c3aed, transparent 35%),
+                #0f172a;
+
+            color: white;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1050px;
+            margin: auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        header h1 {
+            font-size: 42px;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: #cbd5e1;
+            font-size: 18px;
+        }
+
+        .card {
+            background: rgba(15, 23, 42, 0.95);
+            border: 1px solid rgba(255,255,255,.1);
+            border-radius: 22px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,.35);
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        /* MENU */
+
+        .menu h2 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .titulo-secao {
+            color: #93c5fd;
+            font-weight: bold;
+            margin: 25px 0 12px;
+        }
+
+        .conteudos {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 10px;
+        }
+
+        button {
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 12px;
+            padding: 14px;
+            transition: .2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.1);
+        }
+
+        .conteudo {
+            background: #1e293b;
+            color: white;
+            border: 2px solid transparent;
+        }
+
+        .conteudo.selecionado {
+            background: #1d4ed8;
+            border-color: #60a5fa;
+        }
+
+        .dificuldades {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .dificuldade {
+            background: #334155;
+            color: white;
+        }
+
+        .dificuldade.selecionado {
+            background: #7c3aed;
+            border: 2px solid #c4b5fd;
+        }
+
+        .btn-iniciar {
+            width: 100%;
+            margin-top: 30px;
+            background: linear-gradient(135deg,#22c55e,#16a34a);
+            color: white;
+            font-size: 21px;
+            padding: 18px;
+        }
+
+        /* JOGO */
+
+        .topo {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .badge {
+            background: #1e293b;
+            padding: 9px 14px;
+            border-radius: 20px;
+            color: #e2e8f0;
+        }
+
+        .estatisticas {
+            display: grid;
+            grid-template-columns: repeat(5,1fr);
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .estatistica {
+            background: #1e293b;
+            padding: 13px;
+            text-align: center;
+            border-radius: 12px;
+            color: #cbd5e1;
+        }
+
+        .estatistica strong {
+            display: block;
+            color: white;
+            font-size: 24px;
+            margin-top: 5px;
+        }
+
+        .nivel-container {
+            margin-bottom: 25px;
+        }
+
+        .nivel-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            color: #cbd5e1;
+        }
+
+        .barra {
+            height: 10px;
+            background: #334155;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .barra-progresso {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg,#22c55e,#06b6d4);
+            transition: .3s;
+        }
+
+        .numero {
+            color: #60a5fa;
+            font-weight: bold;
+            margin-bottom: 12px;
+        }
+
+        .pergunta {
+            font-size: 26px;
+            line-height: 1.5;
+            margin-bottom: 25px;
+        }
+
+        .alternativas {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .alternativa {
+            background: #334155;
+            color: white;
+            text-align: left;
+            min-height: 60px;
+        }
+
+        .alternativa.correta {
+            background: #15803d;
+        }
+
+        .alternativa.errada {
+            background: #b91c1c;
+        }
+
+        .alternativa:disabled {
+            cursor: not-allowed;
+        }
+
+        .feedback {
+            display: none;
+            margin-top: 20px;
+            padding: 16px;
+            border-radius: 12px;
+            line-height: 1.6;
+        }
+
+        .feedback.correto {
+            display: block;
+            background: #14532d;
+            border: 1px solid #22c55e;
+        }
+
+        .feedback.errado {
+            display: block;
+            background: #7f1d1d;
+            border: 1px solid #ef4444;
+        }
+
+        .dica {
+            display: none;
+            margin-top: 15px;
+            padding: 15px;
+            background: #422006;
+            border: 1px solid #eab308;
+            color: #fef08a;
+            border-radius: 12px;
+        }
+
+        .acoes {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-dica {
+            background: #ca8a04;
+            color: white;
+        }
+
+        .btn-proxima {
+            background: #2563eb;
+            color: white;
+        }
+
+        .btn-menu {
+            background: #475569;
+            color: white;
+        }
+
+        /* RESULTADO */
+
+        .resultado {
+            text-align: center;
+        }
+
+        .trofeu {
+            font-size: 80px;
+        }
+
+        .resultado h2 {
+            font-size: 35px;
+            margin: 15px 0;
+        }
+
+        .pontuacao-final {
+            color: #4ade80;
+            font-size: 50px;
+            font-weight: bold;
+            margin: 20px;
+        }
+
+        .resultado-grid {
+            display: grid;
+            grid-template-columns: repeat(4,1fr);
+            gap: 12px;
+            margin: 25px 0;
+        }
+
+        .resultado-box {
+            background: #1e293b;
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .resultado-box strong {
+            display: block;
+            color: #60a5fa;
+            font-size: 28px;
+            margin-top: 8px;
+        }
+
+        .btn-recomecar {
+            width: 100%;
+            background: #7c3aed;
+            color: white;
+        }
+
+        @media(max-width:700px) {
+
+            header h1 {
+                font-size: 30px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .dificuldades {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .estatisticas {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .alternativas {
+                grid-template-columns: 1fr;
+            }
+
+            .acoes {
+                grid-template-columns: 1fr;
+            }
+
+            .resultado-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .pergunta {
+                font-size: 21px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+<header>
+
+    <h1> Central de Desafios Matemáticos</h1>
+
+    <p>
+            •  Matemática do 6º ao 9º ano • 
+    </p>
+
+</header>
+
+
+<!-- ================= MENU ================= -->
+
+<section id="menu" class="card">
+
+    <h2>🎮 Configure seu desafio</h2>
+
+    <div class="titulo-secao">
+        📚 Escolha o conteúdo
+    </div>
+
+    <div class="conteudos">
+
+        <button class="conteudo selecionado"
+                data-conteudo="todos">
+            🌟 Todos os conteúdos
+        </button>
+
+        <button class="conteudo"
+                data-conteudo="operacoes">
+            ➕ Operações
+        </button>
+
+        <button class="conteudo"
+                data-conteudo="inteiros">
+            🔢 Números Inteiros
+        </button>
+
+        <button class="conteudo"
+                data-conteudo="multiplos">
+            🔎 Múltiplos e Divisores
+        </button>
+
+        <button class="conteudo"
+                data-conteudo="fracoes">
+            🍕 Frações
+        </button>
+
+        <button class="conteudo"
+                data-conteudo="decimais">
+            🔢 Números Decimais
+        </button>
+
+        <button class="conteudo"
+                data-conteudo="porcentagem">
+            💯 Porcentagem
+        </button>
+
+        <button class="conteudo"
+                data-conteudo="razao">
+            ⚖️ Razão e Proporção
+        </button>
+
+        <button class="conteudo"
+                data-conteudo="regra3">
+            📊 Regra de Três
+        </button>
+
+        <button class="conteudo"
+                data-conteudo="potenciacao">
+            ⚡ Potenciação
+        </button>
+
+        <button class="conteudo"
+                data-conteudo="raiz">
+            √ Radiciação
+        </button>
+
+        <button class="conteudo"
+                data-conteudo="expressoes">
+            🧮 Expressões
+        </button>
+
+        <button class="conteudo"
+                data-conteudo="equacoes">
+            ❓ Equações
+        </button>
+
+        <button class="conteudo"
+                data-conteudo="geometria">
+            📐 Geometria
+        </button>
+
+        <button class="conteudo"
+                data-conteudo="estatistica">
+            📊 Estatística
+        </button>
+
+        <button class="conteudo"
+                data-conteudo="probabilidade">
+            🎲 Probabilidade
+        </button>
+
+        <button class="conteudo"
+                data-conteudo="cartesiano">
+            📈 Plano Cartesiano
+        </button>
+
+    </div>
+
+
+    <div class="titulo-secao">
+        🎚️ Nível de dificuldade
+    </div>
+
+
+    <div class="dificuldades">
+
+        <button class="dificuldade selecionado"
+                data-dificuldade="facil">
+            🟢 Fácil
+        </button>
+
+        <button class="dificuldade"
+                data-dificuldade="medio">
+            🟡 Médio
+        </button>
+
+        <button class="dificuldade"
+                data-dificuldade="dificil">
+            🔴 Difícil
+        </button>
+
+        <button class="dificuldade"
+                data-dificuldade="aleatorio">
+            🎲 Aleatório
+        </button>
+
+    </div>
+
+
+    <button class="btn-iniciar"
+            onclick="iniciarJogo()">
+
+        🚀 COMEÇAR DESAFIO
+
+    </button>
+
+</section>
+
+
+<!-- ================= JOGO ================= -->
+
+<section id="jogo" class="card hidden">
+
+    <div class="topo">
+
+        <span id="conteudoAtual" class="badge">
+            🌟 Todos
+        </span>
+
+        <span id="dificuldadeAtual" class="badge">
+            🟢 Fácil
+        </span>
+
+        <span id="vidas" class="badge">
+            ❤️❤️❤️
+        </span>
+
+    </div>
+
+
+    <div class="estatisticas">
+
+        <div class="estatistica">
+            Questão
+            <strong id="numeroQuestao">1</strong>
+        </div>
+
+        <div class="estatistica">
+            Pontos
+            <strong id="pontuacao">0</strong>
+        </div>
+
+        <div class="estatistica">
+            Acertos
+            <strong id="acertos">0</strong>
+        </div>
+
+        <div class="estatistica">
+            Combo
+            <strong id="combo">0🔥</strong>
+        </div>
+
+        <div class="estatistica">
+            Erros
+            <strong id="erros">0</strong>
+        </div>
+
+    </div>
+
+
+    <div class="nivel-container">
+
+        <div class="nivel-info">
+
+            <span>
+                🏅 Nível <strong id="nivel">1</strong>
+            </span>
+
+            <span id="xpTexto">
+                0 / 100 XP
+            </span>
+
+        </div>
+
+        <div class="barra">
+
+            <div id="barraXP"
+                 class="barra-progresso">
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="numero">
+        🧩 DESAFIO MATEMÁTICO
+    </div>
+
+
+    <div id="pergunta"
+         class="pergunta">
+
+        Carregando...
+
+    </div>
+
+
+    <div id="alternativas"
+         class="alternativas">
+    </div>
+
+
+    <div id="feedback"
+         class="feedback">
+    </div>
+
+
+    <div id="dica"
+         class="dica">
+    </div>
+
+
+    <div class="acoes">
+
+        <button class="btn-dica"
+                onclick="mostrarDica()">
+
+            💡 Dica
+
+        </button>
+
+        <button class="btn-proxima"
+                onclick="proximaPergunta()">
+
+            ⏭️ Próxima
+
+        </button>
+
+        <button class="btn-menu"
+                onclick="voltarMenu()">
+
+            🏠 Menu
+
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- ================= RESULTADO ================= -->
+
+<section id="resultado"
+         class="card resultado hidden">
+
+    <div class="trofeu">
+        🏆
+    </div>
+
+    <h2>Desafio encerrado!</h2>
+
+    <p>
+        Você ficou sem vidas ou decidiu voltar ao menu.
+    </p>
+
+    <div id="pontuacaoFinal"
+         class="pontuacao-final">
+
+        0 pontos
+
+    </div>
+
+
+    <div class="resultado-grid">
+
+        <div class="resultado-box">
+
+            Questões
+
+            <strong id="resQuestoes">
+                0
+            </strong>
+
+        </div>
+
+        <div class="resultado-box">
+
+            Acertos
+
+            <strong id="resAcertos">
+                0
+            </strong>
+
+        </div>
+
+        <div class="resultado-box">
+
+            Erros
+
+            <strong id="resErros">
+                0
+            </strong>
+
+        </div>
+
+        <div class="resultado-box">
+
+            Aproveitamento
+
+            <strong id="resPercentual">
+                0%
+            </strong>
+
+        </div>
+
+    </div>
+
+
+    <button class="btn-recomecar"
+            onclick="voltarMenu()">
+
+        🔄 Jogar novamente
+
+    </button>
+
+</section>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+   ESTADO DO JOGO
+========================================================= */
+
+let conteudoSelecionado = "todos";
+
+let dificuldadeSelecionada = "facil";
+
+let perguntaAtual = null;
+
+let numeroQuestao = 0;
+
+let pontuacao = 0;
+
+let acertos = 0;
+
+let erros = 0;
+
+let combo = 0;
+
+let vidas = 3;
+
+let nivel = 1;
+
+let xp = 0;
+
+let perguntaRespondida = false;
+
+
+/* =========================================================
+   NOMES
+========================================================= */
+
+const nomesConteudos = {
+
+    todos: "🌟 Todos os conteúdos",
+
+    operacoes: "➕ Operações",
+
+    inteiros: "🔢 Números Inteiros",
+
+    multiplos: "🔎 Múltiplos e Divisores",
+
+    fracoes: "🍕 Frações",
+
+    decimais: "🔢 Números Decimais",
+
+    porcentagem: "💯 Porcentagem",
+
+    razao: "⚖️ Razão e Proporção",
+
+    regra3: "📊 Regra de Três",
+
+    potenciacao: "⚡ Potenciação",
+
+    raiz: "√ Radiciação",
+
+    expressoes: "🧮 Expressões",
+
+    equacoes: "❓ Equações",
+
+    geometria: "📐 Geometria",
+
+    estatistica: "📊 Estatística",
+
+    probabilidade: "🎲 Probabilidade",
+
+    cartesiano: "📈 Plano Cartesiano"
+
+};
+
+
+const nomesDificuldade = {
+
+    facil: "🟢 Fácil",
+
+    medio: "🟡 Médio",
+
+    dificil: "🔴 Difícil",
+
+    aleatorio: "🎲 Aleatório"
+
+};
+
+
+/* =========================================================
+   SELEÇÃO DE CONTEÚDO
+========================================================= */
+
+document.querySelectorAll(".conteudo")
+.forEach(botao => {
+
+    botao.addEventListener("click", () => {
+
+        document.querySelectorAll(".conteudo")
+        .forEach(b =>
+            b.classList.remove("selecionado")
+        );
+
+        botao.classList.add("selecionado");
+
+        conteudoSelecionado =
+            botao.dataset.conteudo;
+
+    });
+
+});
+
+
+/* =========================================================
+   SELEÇÃO DE DIFICULDADE
+========================================================= */
+
+document.querySelectorAll(".dificuldade")
+.forEach(botao => {
+
+    botao.addEventListener("click", () => {
+
+        document.querySelectorAll(".dificuldade")
+        .forEach(b =>
+            b.classList.remove("selecionado")
+        );
+
+        botao.classList.add("selecionado");
+
+        dificuldadeSelecionada =
+            botao.dataset.dificuldade;
+
+    });
+
+});
+
+
+/* =========================================================
+   FUNÇÕES MATEMÁTICAS
+========================================================= */
+
+function aleatorio(min, max) {
+
+    return Math.floor(
+        Math.random() * (max - min + 1)
+    ) + min;
+
+}
+
+
+function decimal(valor) {
+
+    return Math.round(valor * 100) / 100;
+
+}
+
+
+function embaralhar(array) {
+
+    return [...array]
+        .sort(() => Math.random() - 0.5);
+
+}
+
+
+function alternativasNumericas(resposta) {
+
+    let lista = [resposta];
+
+    while (lista.length < 4) {
+
+        let variacao;
+
+        if (Number.isInteger(resposta)) {
+
+            variacao =
+                resposta + aleatorio(-10, 10);
+
+        } else {
+
+            variacao =
+                decimal(
+                    resposta + (Math.random() * 10 - 5)
+                );
+
+        }
+
+        if (
+            variacao !== resposta &&
+            !lista.includes(variacao)
+        ) {
+
+            lista.push(variacao);
+
+        }
+
+    }
+
+    return lista.map(String);
+
+}
+
+
+function criarPergunta(
+    texto,
+    resposta,
+    dica,
+    explicacao
+) {
+
+    let alternativas =
+        alternativasNumericas(resposta);
+
+    return {
+
+        texto,
+
+        correta: String(resposta),
+
+        alternativas:
+            embaralhar(alternativas),
+
+        dica,
+
+        explicacao
+
+    };
+
+}
+
+
+/* =========================================================
+   INICIAR
+========================================================= */
+
+function iniciarJogo() {
+
+    numeroQuestao = 0;
+
+    pontuacao = 0;
+
+    acertos = 0;
+
+    erros = 0;
+
+    combo = 0;
+
+    vidas = 3;
+
+    nivel = 1;
+
+    xp = 0;
+
+    document.getElementById("menu")
+    .classList.add("hidden");
+
+    document.getElementById("resultado")
+    .classList.add("hidden");
+
+    document.getElementById("jogo")
+    .classList.remove("hidden");
+
+    novaPergunta();
+
+}
+
+
+/* =========================================================
+   NOVA PERGUNTA
+========================================================= */
+
+function novaPergunta() {
+
+    perguntaRespondida = false;
+
+    numeroQuestao++;
+
+    document.getElementById("feedback")
+    .className = "feedback";
+
+    document.getElementById("dica")
+    .style.display = "none";
+
+
+    perguntaAtual =
+        gerarPergunta();
+
+
+    document.getElementById("pergunta")
+    .innerHTML =
+        perguntaAtual.texto;
+
+
+    const container =
+        document.getElementById("alternativas");
+
+    container.innerHTML = "";
+
+
+    perguntaAtual.alternativas
+    .forEach(alternativa => {
+
+        const botao =
+            document.createElement("button");
+
+        botao.className =
+            "alternativa";
+
+        botao.innerHTML =
+            alternativa;
+
+        botao.onclick = () =>
+            responder(
+                alternativa,
+                botao
+            );
+
+        container.appendChild(botao);
+
+    });
+
+
+    atualizarInterface();
+
+}
+
+
+/* =========================================================
+   GERADOR DE PERGUNTAS
+========================================================= */
+
+function gerarPergunta() {
+
+    let dificuldade =
+        dificuldadeSelecionada;
+
+
+    if (dificuldade === "aleatorio") {
+
+        const niveis =
+            ["facil", "medio", "dificil"];
+
+        dificuldade =
+            niveis[
+                aleatorio(0,2)
+            ];
+
+    }
+
+
+    let conteudo =
+        conteudoSelecionado;
+
+
+    if (conteudo === "todos") {
+
+        const lista = [
+
+            "operacoes",
+            "inteiros",
+            "multiplos",
+            "fracoes",
+            "decimais",
+            "porcentagem",
+            "razao",
+            "regra3",
+            "potenciacao",
+            "raiz",
+            "expressoes",
+            "equacoes",
+            "geometria",
+            "estatistica",
+            "probabilidade",
+            "cartesiano"
+
+        ];
+
+        conteudo =
+            lista[
+                aleatorio(
+                    0,
+                    lista.length - 1
+                )
+            ];
+
+    }
+
+
+    return gerarPorConteudo(
+        conteudo,
+        dificuldade
+    );
+
+}
+
+
+/* =========================================================
+   GERADOR POR CONTEÚDO
+========================================================= */
+
+function gerarPorConteudo(
+    conteudo,
+    dificuldade
+) {
+
+    switch(conteudo) {
+
+        case "operacoes":
+            return gerarOperacoes(dificuldade);
+
+        case "inteiros":
+            return gerarInteiros(dificuldade);
+
+        case "multiplos":
+            return gerarMultiplos(dificuldade);
+
+        case "fracoes":
+            return gerarFracoes(dificuldade);
+
+        case "decimais":
+            return gerarDecimais(dificuldade);
+
+        case "porcentagem":
+            return gerarPorcentagem(dificuldade);
+
+        case "razao":
+            return gerarRazao(dificuldade);
+
+        case "regra3":
+            return gerarRegra3(dificuldade);
+
+        case "potenciacao":
+            return gerarPotenciacao(dificuldade);
+
+        case "raiz":
+            return gerarRaiz(dificuldade);
+
+        case "expressoes":
+            return gerarExpressoes(dificuldade);
+
+        case "equacoes":
+            return gerarEquacoes(dificuldade);
+
+        case "geometria":
+            return gerarGeometria(dificuldade);
+
+        case "estatistica":
+            return gerarEstatistica(dificuldade);
+
+        case "probabilidade":
+            return gerarProbabilidade(dificuldade);
+
+        case "cartesiano":
+            return gerarCartesiano(dificuldade);
+
+    }
+
+}
+
+
+/* =========================================================
+   OPERAÇÕES
+========================================================= */
+
+function gerarOperacoes(dificuldade) {
+
+    let max =
+        dificuldade === "facil" ? 30 :
+        dificuldade === "medio" ? 200 :
+        1000;
+
+    let a = aleatorio(1,max);
+    let b = aleatorio(1,max);
+
+    let tipo = aleatorio(1,4);
+
+    let resposta;
+
+    if(tipo === 1) {
+
+        resposta = a+b;
+
+        return criarPergunta(
+            `Quanto é <strong>${a} + ${b}</strong>?`,
+            resposta,
+            "Some os dois números.",
+            `${a} + ${b} = ${resposta}.`
+        );
+
+    }
+
+    if(tipo === 2) {
+
+        if(b > a)
+            [a,b] = [b,a];
+
+        resposta = a-b;
+
+        return criarPergunta(
+            `Quanto é <strong>${a} − ${b}</strong>?`,
+            resposta,
+            "Subtraia o segundo número do primeiro.",
+            `${a} − ${b} = ${resposta}.`
+        );
+
+    }
+
+    if(tipo === 3) {
+
+        a = aleatorio(2,
+            dificuldade === "dificil" ? 50 : 20);
+
+        b = aleatorio(2,
+            dificuldade === "dificil" ? 50 : 20);
+
+        resposta = a*b;
+
+        return criarPergunta(
+            `Quanto é <strong>${a} × ${b}</strong>?`,
+            resposta,
+            "Multiplique os dois números.",
+            `${a} × ${b} = ${resposta}.`
+        );
+
+    }
+
+    b = aleatorio(2,15);
+    resposta = aleatorio(2,15);
+    a = b*resposta;
+
+    return criarPergunta(
+        `Quanto é <strong>${a} ÷ ${b}</strong>?`,
+        resposta,
+        "Pense em qual número multiplicado pelo divisor produz o dividendo.",
+        `${a} ÷ ${b} = ${resposta}.`
+    );
+
+}
+
+
+/* =========================================================
+   NÚMEROS INTEIROS
+========================================================= */
+
+function gerarInteiros(dificuldade) {
+
+    let limite =
+        dificuldade === "facil" ? 20 :
+        dificuldade === "medio" ? 100 :
+        500;
+
+    let a = aleatorio(-limite,limite);
+    let b = aleatorio(-limite,limite);
+
+    let resposta = a+b;
+
+    return criarPergunta(
+        `Calcule: <strong>${a} + (${b})</strong>`,
+        resposta,
+        "Lembre-se das regras de sinais.",
+        `${a} + (${b}) = ${resposta}.`
+    );
+
+}
+
+
+/* =========================================================
+   MÚLTIPLOS E DIVISORES
+========================================================= */
+
+function gerarMultiplos(dificuldade) {
+
+    let a = aleatorio(2,
+        dificuldade === "dificil" ? 30 : 15);
+
+    let b = aleatorio(2,12);
+
+    let resposta = a*b;
+
+    return criarPergunta(
+        `Qual destes valores é múltiplo de ${a}?`,
+        resposta,
+        `Multiplique ${a} por um número inteiro.`,
+        `${a} × ${b} = ${resposta}.`
+    );
+
+}
+
+
+/* =========================================================
+   FRAÇÕES
+========================================================= */
+
+function gerarFracoes(dificuldade) {
+
+    let denominador =
+        aleatorio(2,
+            dificuldade === "facil" ? 8 : 15);
+
+    let numerador =
+        aleatorio(1,denominador-1);
+
+    let multiplicador =
+        aleatorio(2,10);
+
+    let resposta =
+        numerador*multiplicador;
+
+    let novoDen =
+        denominador*multiplicador;
+
+    return criarPergunta(
+        `Uma pizza foi dividida em ${denominador} partes iguais. 
+        João comeu ${numerador}/${denominador}. 
+        Se cada parte original fosse dividida em ${multiplicador}, 
+        quantas partes pequenas João teria comido?`,
+        resposta,
+        `Multiplique o numerador por ${multiplicador}.`,
+        `${numerador}/${denominador} equivale a ${resposta}/${novoDen}.`
+    );
+
+}
+
+
+/* =========================================================
+   DECIMAIS
+========================================================= */
+
+function gerarDecimais(dificuldade) {
+
+    let a =
+        decimal(aleatorio(10,500)/10);
+
+    let b =
+        decimal(aleatorio(10,300)/10);
+
+    let resposta =
+        decimal(a+b);
+
+    return criarPergunta(
+        `Calcule: <strong>${a} + ${b}</strong>`,
+        resposta,
+        "Alinhe as casas decimais.",
+        `${a} + ${b} = ${resposta}.`
+    );
+
+}
+
+
+/* =========================================================
+   PORCENTAGEM
+========================================================= */
+
+function gerarPorcentagem(dificuldade) {
+
+    let numero =
+        aleatorio(20,
+            dificuldade === "dificil" ? 1000 : 300);
+
+    let porcentagens =
+        [5,10,15,20,25,30,40,50,60,75];
+
+    let porcentagem =
+        porcentagens[
+            aleatorio(
+                0,
+                porcentagens.length-1
+            )
+        ];
+
+    let resposta =
+        decimal(numero*porcentagem/100);
+
+    return criarPergunta(
+        `Quanto é <strong>${porcentagem}% de ${numero}</strong>?`,
+        resposta,
+        `${porcentagem}% significa ${porcentagem}/100.`,
+        `${porcentagem}% de ${numero} = ${resposta}.`
+    );
+
+}
+
+
+/* =========================================================
+   RAZÃO E PROPORÇÃO
+========================================================= */
+
+function gerarRazao(dificuldade) {
+
+    let a = aleatorio(2,12);
+    let b = aleatorio(2,12);
+    let multiplicador = aleatorio(2,10);
+
+    let resposta = b*multiplicador;
+
+    return criarPergunta(
+        `Se a razão entre A e B é ${a}:${b} e A = ${a*multiplicador}, quanto vale B?`,
+        resposta,
+        "Descubra por quanto a primeira parte foi multiplicada.",
+        `A foi multiplicado por ${multiplicador}, então B também: ${b} × ${multiplicador} = ${resposta}.`
+    );
+
+}
+
+
+/* =========================================================
+   REGRA DE TRÊS
+========================================================= */
+
+function gerarRegra3(dificuldade) {
+
+    let quantidade =
+        aleatorio(2,20);
+
+    let preco =
+        aleatorio(2,30);
+
+    let novaQuantidade =
+        aleatorio(2,40);
+
+    let resposta =
+        decimal(
+            preco*novaQuantidade/quantidade
+        );
+
+    return criarPergunta(
+        `${quantidade} produtos custam R$ ${preco}. 
+        Quanto custariam ${novaQuantidade} produtos, 
+        mantendo o mesmo preço por unidade?`,
+        resposta,
+        "Descubra primeiro o preço de uma unidade.",
+        `Preço unitário = ${preco}/${quantidade}. Multiplicando por ${novaQuantidade}, obtemos R$ ${resposta}.`
+    );
+
+}
+
+
+/* =========================================================
+   POTENCIAÇÃO
+========================================================= */
+
+function gerarPotenciacao(dificuldade) {
+
+    let base =
+        aleatorio(2,
+            dificuldade === "dificil" ? 12 : 8);
+
+    let expoente =
+        aleatorio(2,
+            dificuldade === "facil" ? 3 : 4);
+
+    let resposta =
+        Math.pow(base,expoente);
+
+    return criarPergunta(
+        `Calcule: <strong>${base}<sup>${expoente}</sup></strong>`,
+        resposta,
+        "Multiplique a base por ela mesma o número de vezes indicado pelo expoente.",
+        `${base}<sup>${expoente}</sup> = ${resposta}.`
+    );
+
+}
+
+
+/* =========================================================
+   RAIZ QUADRADA
+========================================================= */
+
+function gerarRaiz(dificuldade) {
+
+    let limite =
+        dificuldade === "dificil" ? 30 : 15;
+
+    let numero =
+        aleatorio(2,limite);
+
+    let resposta =
+        numero*numero;
+
+    return criarPergunta(
+        `Qual é a raiz quadrada de <strong>${resposta}</strong>?`,
+        numero,
+        `Qual número multiplicado por ele mesmo resulta em ${resposta}?`,
+        `√${resposta} = ${numero}.`
+    );
+
+}
+
+
+/* =========================================================
+   EXPRESSÕES NUMÉRICAS
+========================================================= */
+
+function gerarExpressoes(dificuldade) {
+
+    let a = aleatorio(2,15);
+    let b = aleatorio(2,10);
+    let c = aleatorio(1,10);
+
+    let resposta =
+        a + b*c;
+
+    return criarPergunta(
+        `Resolva: <strong>${a} + ${b} × ${c}</strong>`,
+        resposta,
+        "Primeiro faça a multiplicação.",
+        `${b} × ${c} = ${b*c}; depois ${a} + ${b*c} = ${resposta}.`
+    );
+
+}
+
+
+/* =========================================================
+   EQUAÇÕES
+========================================================= */
+
+function gerarEquacoes(dificuldade) {
+
+    let x =
+        aleatorio(1,
+            dificuldade === "facil" ? 15 :
+            dificuldade === "medio" ? 50 :
+            100);
+
+    let a =
+        aleatorio(2,
+            dificuldade === "dificil" ? 12 : 6);
+
+    let b =
+        aleatorio(1,30);
+
+    let resultado =
+        a*x+b;
+
+    return criarPergunta(
+        `Descubra x:<br><br>
+        <strong>${a}x + ${b} = ${resultado}</strong>`,
+        x,
+        `Primeiro retire ${b} dos dois lados e depois divida por ${a}.`,
+        `${a}x = ${resultado-b}; portanto x = ${x}.`
+    );
+
+}
+
+
+/* =========================================================
+   GEOMETRIA
+========================================================= */
+
+function gerarGeometria(dificuldade) {
+
+    let tipo =
+        aleatorio(1,3);
+
+    if(tipo === 1) {
+
+        let lado =
+            aleatorio(3,30);
+
+        let resposta =
+            lado*4;
+
+        return criarPergunta(
+            `Um quadrado possui lado de ${lado} cm. 
+            Qual é seu perímetro?`,
+            resposta,
+            "Perímetro do quadrado = 4 × lado.",
+            `4 × ${lado} = ${resposta} cm.`
+        );
+
+    }
+
+    if(tipo === 2) {
+
+        let base =
+            aleatorio(3,30);
+
+        let altura =
+            aleatorio(3,20);
+
+        let resposta =
+            base*altura;
+
+        return criarPergunta(
+            `Um retângulo possui base ${base} cm e altura ${altura} cm. 
+            Qual é sua área?`,
+            resposta,
+            "Área = base × altura.",
+            `${base} × ${altura} = ${resposta} cm².`
+        );
+
+    }
+
+    let lado =
+        aleatorio(3,20);
+
+    let resposta =
+        lado*lado;
+
+    return criarPergunta(
+        `Qual é a área de um quadrado com lado de ${lado} cm?`,
+        resposta,
+        "Área do quadrado = lado × lado.",
+        `${lado} × ${lado} = ${resposta} cm².`
+    );
+
+}
+
+
+/* =========================================================
+   ESTATÍSTICA
+========================================================= */
+
+function gerarEstatistica(dificuldade) {
+
+    let numeros = [];
+
+    for(let i=0;i<5;i++) {
+
+        numeros.push(
+            aleatorio(1,30)
+        );
+
+    }
+
+    let soma =
+        numeros.reduce(
+            (a,b)=>a+b,
+            0
+        );
+
+    let resposta =
+        decimal(soma/numeros.length);
+
+    return criarPergunta(
+        `Qual é a média aritmética de:<br><br>
+        <strong>${numeros.join(" , ")}</strong>`,
+        resposta,
+        "Some todos os números e divida pela quantidade de números.",
+        `Soma = ${soma}. Como existem 5 números: ${soma}/5 = ${resposta}.`
+    );
+
+}
+
+
+/* =========================================================
+   PROBABILIDADE
+========================================================= */
+
+function gerarProbabilidade(dificuldade) {
+
+    let total =
+        aleatorio(4,20);
+
+    let favoraveis =
+        aleatorio(1,total-1);
+
+    let porcentagem =
+        decimal(
+            favoraveis/total*100
+        );
+
+    return criarPergunta(
+        `Uma caixa possui ${total} bolas. 
+        ${favoraveis} são azuis. 
+        Qual é aproximadamente a probabilidade, em %, 
+        de retirar uma bola azul?`,
+        porcentagem,
+        "Probabilidade = casos favoráveis ÷ casos possíveis × 100.",
+        `${favoraveis}/${total} × 100 = aproximadamente ${porcentagem}%.`
+    );
+
+}
+
+
+/* =========================================================
+   PLANO CARTESIANO
+========================================================= */
+
+function gerarCartesiano(dificuldade) {
+
+    let x =
+        aleatorio(-10,10);
+
+    let y =
+        aleatorio(-10,10);
+
+    let resposta =
+        y;
+
+    return criarPergunta(
+        `No plano cartesiano, o ponto P possui coordenada 
+        x = ${x} e está localizado sobre a reta y = ${y}. 
+        Qual é a coordenada y do ponto?`,
+        resposta,
+        "A coordenada y é o segundo número do par ordenado.",
+        `O ponto possui coordenadas (${x}, ${y}). Portanto y = ${y}.`
+    );
+
+}
+
+
+/* =========================================================
+   RESPONDER
+========================================================= */
+
+function responder(resposta, botao) {
+
+    if(perguntaRespondida)
+        return;
+
+    perguntaRespondida = true;
+
+
+    const botoes =
+        document.querySelectorAll(".alternativa");
+
+
+    botoes.forEach(b => {
+
+        b.disabled = true;
+
+        if(
+            b.innerText.trim() ===
+            perguntaAtual.correta
+        ) {
+
+            b.classList.add("correta");
+
+        }
+
+    });
+
+
+    if(
+        String(resposta).trim() ===
+        perguntaAtual.correta
+    ) {
+
+        acertos++;
+
+        combo++;
+
+        let pontosBase =
+            dificuldadeSelecionada === "facil"
+            ? 10
+            : dificuldadeSelecionada === "medio"
+            ? 20
+            : 30;
+
+        let bonus =
+            Math.min(combo * 5,50);
+
+        let pontos =
+            pontosBase + bonus;
+
+        pontuacao += pontos;
+
+        ganharXP(
+            dificuldadeSelecionada === "facil"
+            ? 20
+            : dificuldadeSelecionada === "medio"
+            ? 30
+            : 45
+        );
+
+
+        document.getElementById("feedback")
+        .className =
+            "feedback correto";
+
+
+        document.getElementById("feedback")
+        .innerHTML =
+            `✅ <strong>Correto!</strong><br>
+             +${pontos} pontos<br>
+             🔥 Combo de ${combo} acertos!`;
+
+    }
+
+    else {
+
+        erros++;
+
+        combo = 0;
+
+        vidas--;
+
+        botao.classList.add("errada");
+
+
+        document.getElementById("feedback")
+        .className =
+            "feedback errado";
+
+
+        document.getElementById("feedback")
+        .innerHTML =
+            `❌ <strong>Resposta incorreta.</strong><br>
+             Resposta correta:
+             <strong>${perguntaAtual.correta}</strong><br><br>
+             📚 ${perguntaAtual.explicacao}`;
+
+    }
+
+
+    atualizarInterface();
+
+
+    if(vidas <= 0) {
+
+        setTimeout(
+            mostrarResultado,
+            1200
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   XP E NÍVEL
+========================================================= */
+
+function ganharXP(valor) {
+
+    xp += valor;
+
+
+    while(xp >= 100) {
+
+        xp -= 100;
+
+        nivel++;
+
+        setTimeout(() => {
+
+            alert(
+                `🎉 PARABÉNS!\n\nVocê chegou ao nível ${nivel}!`
+            );
+
+        },100);
+
+    }
+
+}
+
+
+/* =========================================================
+   PRÓXIMA
+========================================================= */
+
+function proximaPergunta() {
+
+    if(!perguntaRespondida) {
+
+        alert(
+            "⚠️ Responda a pergunta primeiro!"
+        );
+
+        return;
+
+    }
+
+    if(vidas <= 0) {
+
+        mostrarResultado();
+
+        return;
+
+    }
+
+    novaPergunta();
+
+}
+
+
+/* =========================================================
+   DICA
+========================================================= */
+
+function mostrarDica() {
+
+    const elemento =
+        document.getElementById("dica");
+
+    elemento.innerHTML =
+        `💡 <strong>Dica:</strong><br>
+         ${perguntaAtual.dica}`;
+
+    elemento.style.display = "block";
+
+}
+
+
+/* =========================================================
+   ATUALIZAR INTERFACE
+========================================================= */
+
+function atualizarInterface() {
+
+    document.getElementById("numeroQuestao")
+    .textContent =
+        numeroQuestao;
+
+
+    document.getElementById("pontuacao")
+    .textContent =
+        pontuacao;
+
+
+    document.getElementById("acertos")
+    .textContent =
+        acertos;
+
+
+    document.getElementById("erros")
+    .textContent =
+        erros;
+
+
+    document.getElementById("combo")
+    .textContent =
+        combo + "🔥";
+
+
+    document.getElementById("nivel")
+    .textContent =
+        nivel;
+
+
+    document.getElementById("xpTexto")
+    .textContent =
+        `${xp} / 100 XP`;
+
+
+    document.getElementById("barraXP")
+    .style.width =
+        `${xp}%`;
+
+
+    document.getElementById("conteudoAtual")
+    .textContent =
+        nomesConteudos[
+            conteudoSelecionado
+        ];
+
+
+    document.getElementById("dificuldadeAtual")
+    .textContent =
+        nomesDificuldade[
+            dificuldadeSelecionada
+        ];
+
+
+    let coracoes = "";
+
+    for(let i=0;i<vidas;i++) {
+
+        coracoes += "❤️";
+
+    }
+
+    if(vidas <= 0)
+        coracoes = "💀";
+
+
+    document.getElementById("vidas")
+    .textContent =
+        coracoes;
+
+}
+
+
+/* =========================================================
+   RESULTADO
+========================================================= */
+
+function mostrarResultado() {
+
+    document.getElementById("jogo")
+    .classList.add("hidden");
+
+    document.getElementById("resultado")
+    .classList.remove("hidden");
+
+
+    document.getElementById("pontuacaoFinal")
+    .textContent =
+        pontuacao + " pontos";
+
+
+    document.getElementById("resQuestoes")
+    .textContent =
+        numeroQuestao;
+
+
+    document.getElementById("resAcertos")
+    .textContent =
+        acertos;
+
+
+    document.getElementById("resErros")
+    .textContent =
+        erros;
+
+
+    let percentual =
+        numeroQuestao > 0
+        ? Math.round(
+            acertos /
+            numeroQuestao *
+            100
+        )
+        : 0;
+
+
+    document.getElementById("resPercentual")
+    .textContent =
+        percentual + "%";
+
+}
+
+
+/* =========================================================
+   MENU
+========================================================= */
+
+function voltarMenu() {
+
+    document.getElementById("jogo")
+    .classList.add("hidden");
+
+    document.getElementById("resultado")
+    .classList.add("hidden");
+
+    document.getElementById("menu")
+    .classList.remove("hidden");
+
+}
+
+</script>
+
+</body>
+</html>
