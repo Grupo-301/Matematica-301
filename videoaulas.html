@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -79,6 +78,43 @@
 
 
         /* =========================
+           BOTÃO VOLTAR
+        ========================= */
+
+        .btn-voltar {
+            display: inline-block;
+
+            margin-bottom: 20px;
+
+            padding: 12px 18px;
+
+            border-radius: 12px;
+
+            background: #1e293b;
+
+            border: 1px solid rgba(255,255,255,.15);
+
+            color: white;
+
+            text-decoration: none;
+
+            font-weight: bold;
+
+            transition: .2s;
+
+            box-shadow: 0 8px 20px rgba(0,0,0,.2);
+        }
+
+        .btn-voltar:hover {
+            background: #2563eb;
+
+            transform: translateY(-2px);
+
+            box-shadow: 0 10px 25px rgba(37,99,235,.35);
+        }
+
+
+        /* =========================
            CARDS
         ========================= */
 
@@ -119,8 +155,22 @@
 
 
         /* =========================
-           VÍDEO
+           VÍDEOS
         ========================= */
+
+        .videos {
+            display: grid;
+
+            grid-template-columns: repeat(2, 1fr);
+
+            gap: 25px;
+        }
+
+
+        .videos .card {
+            margin-bottom: 0;
+        }
+
 
         .video-container {
             position: relative;
@@ -139,10 +189,6 @@
 
             box-shadow:
                 0 15px 40px rgba(0,0,0,.35);
-
-            margin-bottom: 25px;
-
-            
         }
 
         .video-container iframe {
@@ -231,7 +277,7 @@
 
 
         /* =========================
-           BOTÃO
+           BOTÃO DAS AULAS
         ========================= */
 
         .btn-aula {
@@ -314,18 +360,55 @@
                 grid-template-columns: 1fr;
             }
 
+            .videos {
+                grid-template-columns: 1fr;
+            }
+
+            .btn-voltar {
+                width: 100%;
+                text-align: center;
+            }
+
         }
-        .videos {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 25px;
-    .videos .card {
-    margin-bottom: 25px;
-}
-}
 
+                /* BOTÃO VOLTAR */
 
+        .btn-voltar {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
 
+            width: 50px;
+            height: 50px;
+
+            margin-bottom: 20px;
+
+            background: #1e293b;
+
+            border: 1px solid rgba(255,255,255,.15);
+
+            border-radius: 12px;
+
+            color: white;
+
+            text-decoration: none;
+
+            font-size: 22px;
+
+            transition: .2s;
+
+            box-shadow: 0 8px 20px rgba(0,0,0,.25);
+        }
+
+        .btn-voltar:hover {
+            background: #2563eb;
+
+            transform: translateY(-2px);
+
+            box-shadow: 0 10px 25px rgba(37,99,235,.35);
+        }
+
+        
     </style>
 
 </head>
@@ -333,8 +416,16 @@
 
 <body>
 
-
 <div class="container">
+
+
+    <!-- =========================
+         BOTÃO VOLTAR
+    ========================= -->
+
+    <a href="Pagina Inicial.html" class="btn-voltar">
+        ⬅️
+    </a>
 
 
     <!-- =========================
@@ -372,75 +463,76 @@
 
 
     <!-- =========================
-         VÍDEO
+         VÍDEOS
     ========================= -->
 
-  <div class="videos">
+    <div class="videos">
 
-    <section class="card">
+        <section class="card">
 
-        <div class="video-container">
-            <iframe
-                src="https://www.youtube.com/embed/4q2N2HzSivA"
-                title="Videoaula sobre Equação do Primeiro Grau"
-                allowfullscreen>
-            </iframe>
-        </div>
+            <div class="video-container">
+                <iframe
+                    src="https://www.youtube.com/embed/4q2N2HzSivA"
+                    title="Videoaula sobre Equação do Primeiro Grau"
+                    allowfullscreen>
+                </iframe>
+            </div>
 
-    </section>
-
-
-    <section class="card">
-
-        <div class="video-container">
-            <iframe
-                src="https://www.youtube.com/embed/evXrGaI6SVc"
-                title="Videoaula sobre Razão e Proporção"
-                allowfullscreen>
-            </iframe>
-        </div>
-
-    </section>
-
-     <section class="card">
-
-        <div class="video-container">
-            <iframe
-                src="https://www.youtube.com/embed/XzZGAwfKs_k"
-                title="Videoaula sobre Graficos e Tabelas"
-                allowfullscreen>
-            </iframe>
-        </div>
-
-    </section>
-
-    <section class="card">
-
-        <div class="video-container">
-            <iframe
-                src="https://www.youtube.com/embed/iNCkGogNtKI"
-                title="Videoaula sobre Noção de Probabilidade"
-                allowfullscreen>
-            </iframe>
-        </div>
-
-    </section>
-
-    <section class="card">
-
-        <div class="video-container">
-            <iframe
-                src="https://www.youtube.com/embed/XzZGAwfKs_k"
-                title="Videoaula sobre Graficos e Tabelas"
-                allowfullscreen>
-            </iframe>
-        </div>
-
-    </section>
-
-</div>
+        </section>
 
 
+        <section class="card">
+
+            <div class="video-container">
+                <iframe
+                    src="https://www.youtube.com/embed/evXrGaI6SVc"
+                    title="Videoaula sobre Razão e Proporção"
+                    allowfullscreen>
+                </iframe>
+            </div>
+
+        </section>
+
+
+        <section class="card">
+
+            <div class="video-container">
+                <iframe
+                    src="https://www.youtube.com/embed/XzZGAwfKs_k"
+                    title="Videoaula sobre Gráficos e Tabelas"
+                    allowfullscreen>
+                </iframe>
+            </div>
+
+        </section>
+
+
+        <section class="card">
+
+            <div class="video-container">
+                <iframe
+                    src="https://www.youtube.com/embed/iNCkGogNtKI"
+                    title="Videoaula sobre Noção de Probabilidade"
+                    allowfullscreen>
+                </iframe>
+            </div>
+
+        </section>
+
+
+        <section class="card">
+
+            <div class="video-container">
+                <iframe
+                    src="https://www.youtube.com/embed/XzZGAwfKs_k"
+                    title="Videoaula sobre Gráficos e Tabelas"
+                    allowfullscreen>
+                </iframe>
+            </div>
+
+        </section>
+
+    </div>
 
 
     <!-- =========================
@@ -466,7 +558,7 @@
                 </h3>
 
                 <p>
-                    Aprenda como resolver equações do segundo grau
+                    Aprenda como resolver equações do primeiro grau
                     de forma simples, entendendo cada etapa da resolução.
                 </p>
 
@@ -487,17 +579,18 @@
             <div class="card-aula">
 
                 <h3>
-                    Razão e Prorpoção
+                    📊 Razão e Proporção
                 </h3>
 
                 <p>
-                    Entenda os conceitos básicos de funções matemáticas,
+                    Entenda os conceitos de razão e proporção,
                     suas representações e aplicações.
                 </p>
 
                 <a
                     class="btn-aula"
-                    href="https://www.youtube.com/embed/evXrGaI6SVc">
+                    href="https://www.youtube.com/embed/evXrGaI6SVc"
+                    target="_blank">
 
                     ▶ Assistir aula
 
@@ -511,17 +604,18 @@
             <div class="card-aula">
 
                 <h3>
-                    📐 Grafico e Tabela
+                    📐 Gráfico e Tabela
                 </h3>
 
                 <p>
-                    Aprenda sobre formas geométricas, áreas,
-                    perímetros e outros conceitos importantes.
+                    Aprenda a interpretar gráficos e tabelas
+                    e compreender melhor as informações apresentadas.
                 </p>
 
                 <a
                     class="btn-aula"
-                    href="https://www.youtube.com/embed/XzZGAwfKs_k">
+                    href="https://www.youtube.com/embed/XzZGAwfKs_k"
+                    target="_blank">
 
                     ▶ Assistir aula
 
@@ -529,22 +623,24 @@
 
             </div>
 
-                     <!-- AULA 4 -->
+
+            <!-- AULA 4 -->
 
             <div class="card-aula">
 
                 <h3>
-                    📐 Porobabilidade
+                    🎲 Probabilidade
                 </h3>
 
                 <p>
-                    Aprenda sobre formas geométricas, áreas,
-                    perímetros e outros conceitos importantes.
+                    Aprenda os conceitos básicos de probabilidade
+                    e como calcular as chances de um acontecimento.
                 </p>
 
                 <a
                     class="btn-aula"
-                    href="https://www.youtube.com/embed/iNCkGogNtKI">
+                    href="https://www.youtube.com/embed/iNCkGogNtKI"
+                    target="_blank">
 
                     ▶ Assistir aula
 
@@ -573,8 +669,6 @@
 
 </div>
 
-
 </body>
 
 </html>
-
